@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./src/assets/style/normalize.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./src/assets/style/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+
+        <title>TODO</title>
+    </head>
+    <body>
+        <main>
+            <div class="container">
+                <div class="todo">
+                    <div class="todo__header">
+                        <div class="todo__info">
+                            <h1 class="todo__title">Today`s Task</h1>
+                            <h5 class="todo__date">Wednesday , 11 May</h5>
+                        </div>
+                        <button class="todo__button">+ New Task</button>
+                    </div>
+
+                    <ul class="task__list" id="task-list">
+                        <li class="task__item">
+                            <div class="task__item-top">
+                                <p class="task__item-name">Reading</p>
+                                <img
+                                    class="task__button-icon"
+                                    src="./src/components/icons/task__uncompleted-button.svg"
+                                    id="my-icon"
+                                    alt="task complete button"
+                                />
+                            </div>
+                            <div class="task__item-line"></div>
+                            <div class="task__item-date">
+                                <p class="task__item-day">Today</p>
+                                <p class="task__item-time">10:00pm</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="todo__add">
+                        <div class="todo__add-inner">
+                            <input
+                                class="todo__input"
+                                type="text"
+                                id="input-box"
+                                placeholder="Write your task"
+                            />
+                            <div class="todo__input-buttons">
+                                <img
+                                    class="todo__input-clear"
+                                    id="input-clear-button"
+                                    src="./src/components/icons/input-clear.svg"
+                                    alt="clear button"
+                                />
+                                <img
+                                    class="todo__input-confirm"
+                                    src="./src/components/icons/input-confirm.svg"
+                                    alt="confirm button"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="src/assets/script/script.js"></script>
+    </body>
+</html>
