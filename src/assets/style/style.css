@@ -2,6 +2,7 @@
     --grey500: #737373;
     --grey400: #a3a3a3;
     --grey300: #d4d4d4;
+    --grey200: #e5e5e5;
     --grey100: #f5f5f5;
     --grey50: #fafafa;
     --main: #1c92d2;
@@ -13,6 +14,11 @@ h4,
 h5,
 h6 {
     margin: 0;
+}
+
+button {
+    border: none;
+    background: none;
 }
 
 * {
@@ -40,7 +46,6 @@ h6 {
 }
 /*  */
 .container {
-    width: 100%;
     background: linear-gradient(to right, #1c92d2, #f2fcfe);
     min-height: 100vh;
     padding: 10px;
@@ -54,7 +59,7 @@ h6 {
     width: 100%;
     max-width: 750px;
     background: var(--grey100);
-    padding: 60px 30px 10px;
+    padding: 60px 50px 10px;
     border-radius: 10px;
 }
 
@@ -69,14 +74,12 @@ h6 {
     font-weight: bold;
     font-size: 40px;
     line-height: 48px;
-    letter-spacing: -2px;
 }
 
 .todo__date {
     font-weight: 500;
     font-size: 24px;
     line-height: 32px;
-
     color: var(--grey400);
 }
 
@@ -87,10 +90,8 @@ h6 {
     padding: 6px 20px;
     border-radius: 10px;
 
-    font-weight: medium;
     font-size: 24px;
     line-height: 32px;
-    letter-spacing: -2%;
 }
 
 .todo__button:hover {
@@ -102,14 +103,45 @@ h6 {
 }
 
 .task__item {
+    display: flex;
+    align-items: center;
     margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 3px 4px 4px rgb(0, 0, 0, 15%);
+    position: relative;
+    max-height: 103px;
+    /* Max-height or height ? */
+}
+
+.task__item-wrapper {
+    width: 100%;
     padding: 12px 20px;
     background: var(--grey50);
     border-radius: 10px;
-    box-shadow: 3px 4px 6px rgb(0, 0, 0, 15%);
     display: flex;
     flex-direction: column;
     gap: 10px;
+    box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
+    z-index: 100;
+}
+
+.task__delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 10px 10px 0px;
+    background: var(--grey200);
+    height: 100%;
+    padding: 0px 0px 0px 4px;
+    box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
+    position: absolute;
+    z-index: 90;
+    right: 0;
+}
+
+.task_delete-button:hover {
+    border-radius: 50%;
+    background: rgb(0, 0, 0, 15%);
 }
 
 .task__item-top {
@@ -121,15 +153,6 @@ h6 {
     font-weight: bold;
     font-size: 24px;
     line-height: 32px;
-    letter-spacing: -2%;
-}
-
-.task__button-icon {
-    fill: #0069ca;
-}
-
-#my-icon {
-    fill: #0069ca;
 }
 
 .task__item-line {
@@ -161,7 +184,6 @@ h6 {
     opacity: 0;
     transition: opacity 400ms, display 500ms, transform 400ms;
     transform: translateY(-50px);
-    /* position: absolute; */
 }
 
 .todo__add-inner {
@@ -175,7 +197,6 @@ h6 {
 
 .todo__input {
     border: none;
-    color: #000000;
     width: 100%;
     max-width: 560px;
     background: var(--grey50);
@@ -206,5 +227,11 @@ h6 {
 .animation {
     opacity: 1 !important;
     transform: translateY(0px) !important;
+    transform: translateX(0px) !important;
+    transition: all 500ms ease-in-out !important;
+}
+
+.task__delete-animation {
+    transform: translatex(32px) !important;
     transition: all 500ms ease-in-out !important;
 }
