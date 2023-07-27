@@ -1,0 +1,71 @@
+import { toggleComplitionOfTask } from "./script.js";
+
+export class createElements {
+    constructor() {}
+    // html templete of task
+    htmlTemplete = `<li class="task__item">
+                            <div class="task__item-wrapper">
+                                <div class="task__item-top">
+                                    <p class="task__item-name" id="task-name"></p>  
+                                    <img
+                                        class="task__button-icon"
+                                        src="./src/components/icons/task__uncompleted-button.svg"
+                                        id="my-icon"
+                                        alt="task complete button"
+                                    />
+                                </div>
+                                <div class="task__item-line"></div>
+                                <div class="task__item-date">
+                                    <p class="task__item-day" id="task-day"></p>
+                                    <p class="task__item-time" id="task-time"></p>
+                                </div>
+                            </div>
+                            <div class="task__delete" id="delete-window">
+                                <button
+                                    class="task_delete-button"
+                                    id="delete-button"
+                                    type="button"
+                                >
+                                    <img
+                                        src="./src/components/icons/task__delete-button.svg"
+                                        alt=""
+                                    />
+                                </button>
+                            </div>
+                        </li>;`;
+
+    // get htmlTemplete() {
+    //     const htmlTemplete =
+    //     return htmlTemplete;
+    // }
+
+    elementFromHtml = (html) => {
+        const templete = document.createElement("template");
+
+        templete.innerHTML = html.trim();
+
+        return templete.content.firstElementChild;
+    };
+
+    createListElement = ({ name, completed, createdTime, id }, taskList) => {
+        let listEl = this.elementFromHtml(this.htmlTemplete);
+
+        const date = new Date(createdTime);
+        let dateStr = `${date.getYear() + 1900}-${
+            date.getMonth() + 1
+        }-${date.getDate()}`;
+
+        let timeStr = `${date.getHours()}:${date.getMinutes()}`;
+
+        listEl.querySelector("#task-name").textContent = name;
+        listEl.querySelector("#task-day").textContent = dateStr;
+        listEl.querySelector("#task-time").textContent = timeStr;
+        listEl.id = id;
+
+        if (completed) {
+            toggleComplitionOfTask(listEl);
+        }
+        taskList.appendChild(listEl);
+        return listEl;
+    };
+}

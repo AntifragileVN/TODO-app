@@ -1,7 +1,9 @@
-import { createListElement } from "./script.js";
+import { createElements } from "./createElements.js";
 
 export class DataBase {
     constructor() {}
+
+    elementCreator = new createElements();
 
     // Return info of all task from DB, and create <li> elements  in given <ul> list
     getAllTasks(taskList) {
@@ -17,7 +19,7 @@ export class DataBase {
             .then((DBtasks) => {
                 taskList.textContent = "";
                 DBtasks.forEach((DBelement) => {
-                    createListElement(DBelement);
+                    this.elementCreator.createListElement(DBelement, taskList);
                 });
             })
             .catch((error) => {
@@ -125,7 +127,7 @@ export class DataBase {
             const lastTask = allTasks[allTasks.length - 1];
             return lastTask.id;
         } catch (error) {
-            console.log("getLastIndex" + error);
+            alert("getLastIndex" + error);
         }
     }
 
@@ -136,3 +138,5 @@ export class DataBase {
         return Math.ceil(taskQuantity / limit);
     }
 }
+
+DataBase.elementCreator = new createElements();
