@@ -1,16 +1,21 @@
+import { DataBase } from "./DB.js";
+
 const taskList = document.querySelector("#task-list");
 const inputBox = document.querySelector("#input-box");
-const deleteWindow = document.querySelector("#delete-window");
+
+const paginationList = document.querySelector("#pagination");
 
 const addTaskButton = document.querySelector(".todo__button");
 const addTaskField = document.querySelector(".todo__add");
 
 const confirmButton = document.querySelector(".todo__input-confirm");
 const clearButton = document.querySelector("#input-clear-button");
-const deleteButton = document.querySelector("#delete-button");
+
+const db = new DataBase();
 
 let allTasks = null;
 let lastIndexOfTask = null;
+
 // html templete of task
 const htmlTemplete = `<li class="task__item">
                             <div class="task__item-wrapper">
@@ -61,10 +66,10 @@ confirmButton.addEventListener("click", () => {
             name: inputBox.value,
             completed: false,
             createdTime: new Date().getTime(),
-            id: getLastTaskIndex() + 1,
+            id: db.getLastTaskIndex() + 1,
         };
-        addTaskToDB(task);
-        getAllTasks();
+        db.addTaskToDB(task);
+        db.getAllTasks(taskList);
     }
     inputBox.value = "";
 });
@@ -104,7 +109,7 @@ taskList.addEventListener(
         if (e.target.closest(".task_delete-button") !== null) {
             let item = e.target.closest(".task__item");
             item.remove();
-            deleteTaskFromDB(item.id);
+            db.deleteTaskFromDB(item.id);
         }
     },
     false
@@ -113,8 +118,8 @@ taskList.addEventListener(
 // Create task and add to task list from given object
 const createListElement = ({ name, completed, createdTime, id }) => {
     let listEl = elementFromHtml(htmlTemplete);
-    const date = new Date(createdTime);
 
+    const date = new Date(createdTime);
     let dateStr = `${date.getYear() + 1900}-${
         date.getMonth() + 1
     }-${date.getDate()}`;
@@ -145,102 +150,9 @@ const toggleComplitionOfTask = (listItem) => {
     }
 
     listItem.classList.contains("task__completed")
-        ? markTaskCompleted(listItem.id, true)
-        : markTaskCompleted(listItem.id, false);
+        ? db.markTaskCompleted(listItem.id, true)
+        : db.markTaskCompleted(listItem.id, false);
 };
 
-function getAllTasks() {
-    fetch("https://64be77ea5ee688b6250c7762.mockapi.io/tasks", {
-        method: "GET",
-        headers: { "content-type": "application/json" },
-    })
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-        })
-        .then((DBtasks) => {
-            taskList.textContent = "";
-            DBtasks.forEach((DBelement) => {
-                createListElement(DBelement);
-            });
-        })
-        .catch((error) => {
-            alert(error);
-        });
-}
-
-const addTaskToDB = (newTask) => {
-    fetch("https://64be77ea5ee688b6250c7762.mockapi.io/tasks", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(newTask),
-    })
-        .then((res) => {
-            if (res.ok) return res.json();
-        })
-        .then((task) => {})
-        .catch((error) => {
-            alert(error);
-        });
-};
-
-const markTaskCompleted = (id, boolean) => {
-    fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
-        method: "PUT", // or PATCH
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ completed: boolean }),
-    })
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-        })
-        .then((task) => {})
-        .catch((error) => {
-            alert(error);
-        });
-};
-
-const deleteTaskFromDB = (id) => {
-    fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
-        method: "DELETE",
-    })
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-        })
-        .then((task) => {})
-        .catch((error) => {
-            alert(error);
-        });
-};
-
-const indexRequest = async (url) => {
-    const response = await fetch(url, {
-        method: "GET",
-        headers: { "content-type": "application/json" },
-    });
-
-    const json = await response.json();
-    return json;
-};
-
-const getJsonTaskList = async () => {
-    allTasks = await indexRequest(
-        "https://64be77ea5ee688b6250c7762.mockapi.io/tasks"
-    );
-};
-
-const getLastTaskIndex = async () => {
-    await getJsonTaskList();
-    const lastTask = allTasks[allTasks.length - 1];
-    lastIndexOfTask = lastTask.id;
-    console.log(lastIndexOfTask);
-    return lastIndexOfTask;
-};
-
-getAllTasks();
-// getLastTaskIndex();
-// getJsonTaskList();
+db.getAllTasks(taskList);
+export { createListElement };

@@ -200,7 +200,6 @@ button {
     width: 100%;
     max-width: 560px;
     background: var(--grey50);
-    font-weight: 400;
     font-size: 20px;
     line-height: 28px;
 }
@@ -222,6 +221,33 @@ button {
     background: rgb(0, 0, 0, 5%);
     color: #000000;
     border-radius: 50%;
+}
+
+.paggination__pages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    list-style: none;
+    gap: 10px;
+}
+
+.pagination__pages-item {
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgb(0, 0, 0, 15%);
+    border-radius: 5px;
+    background: var(--grey50);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination__item-content {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
 }
 
 .animation {
