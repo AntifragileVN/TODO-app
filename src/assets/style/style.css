@@ -1,3 +1,18 @@
+/* Table of Content:
+
+1. GENERAL
+
+2. TODO
+
+3. TASK LIST
+
+4. ADD TASK WINDOW
+
+5. PAGINATION
+
+*/
+
+/*----------- GENERAL -----------*/
 :root {
     --grey500: #737373;
     --grey400: #a3a3a3;
@@ -27,7 +42,6 @@ button {
     box-sizing: border-box;
     font-family: Inter;
 }
-/* General styles */
 
 .task__completed {
     text-decoration: line-through;
@@ -36,7 +50,6 @@ button {
 }
 
 .hide {
-    /* transition: opacity 200ms, display 200ms; */
     display: none;
     opacity: 0;
 }
@@ -44,7 +57,7 @@ button {
 .show {
     display: block;
 }
-/*  */
+
 .container {
     background: linear-gradient(to right, #1c92d2, #f2fcfe);
     min-height: 100vh;
@@ -54,6 +67,8 @@ button {
     justify-content: center;
     align-items: center;
 }
+
+/*----------- TODO -----------*/
 
 .todo {
     width: 100%;
@@ -94,9 +109,12 @@ button {
     line-height: 32px;
 }
 
-.todo__button:hover {
+.todo__button:hover,
+.todo__button:focus {
     background: rgba(3, 129, 197, 0.192);
 }
+
+/*----------- TASK LIST -----------*/
 
 .task__list {
     list-style: none;
@@ -139,7 +157,8 @@ button {
     right: 0;
 }
 
-.task_delete-img:hover {
+.task_delete-img:hover,
+.task_delete-img:focus {
     border-radius: 50%;
     background: rgb(0, 0, 0, 10%);
 }
@@ -180,6 +199,8 @@ button {
     line-height: 24px;
 }
 
+/*----------- ADD TASK WINDOW -----------*/
+
 .todo__add {
     opacity: 0;
     transition: opacity 400ms, display 500ms, transform 400ms;
@@ -208,21 +229,19 @@ button {
     color: var(--grey400);
 }
 
-.todo__input:focus {
-    outline: none;
-}
-
 .todo__input-buttons {
     display: flex;
     align-items: center;
 }
 
-.todo__input-clear:hover {
+.todo__input-clear:hover,
+.todo__input-clear:focus {
     background: rgb(0, 0, 0, 5%);
     color: #000000;
     border-radius: 50%;
 }
 
+/*----------- PAGINATION -----------*/
 .pagination {
     display: flex;
     justify-content: center;
@@ -259,16 +278,4 @@ button {
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
-}
-
-.animation {
-    opacity: 1 !important;
-    transform: translateY(0px) !important;
-    transform: translateX(0px) !important;
-    transition: all 500ms ease-in-out !important;
-}
-
-.task__delete-animation {
-    transform: translatex(32px) !important;
-    transition: all 500ms ease-in-out !important;
 }
