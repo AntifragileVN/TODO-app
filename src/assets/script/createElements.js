@@ -23,18 +23,18 @@ export class createElements {
                             </div>
                             <div class="task__delete" id="delete-window">
                                 <button
-                                    class="task_delete-button"
                                     id="delete-button"
                                     type="button"
                                 >
                                     <img
+                                         class="task_delete-img"
                                         src="./src/components/icons/task__delete-button.svg"
                                         alt=""
                                     />
                                 </button>
                             </div>
                         </li>;`;
-    htmlPaginationTemplete = `<li class="pagination__pages-item">
+    htmlPaginationTemplete = `<li class="pagination__list-item">
                                 <span class="pagination__item-content" id="page"></span>
                             </li>`;
 
@@ -78,7 +78,7 @@ export class createElements {
         paginationEl.querySelector('#page').textContent = pageIndex;
         paginationEl.value = pageIndex;
 
-        if (currentPage == pageIndex) paginationEl.classList.add('pagination__pages-item--active');
+        if (currentPage == pageIndex) paginationEl.classList.add('pagination__list-item--active');
 
         controlButtonStatus();
 
@@ -87,10 +87,10 @@ export class createElements {
             setCurrentPage(pageIndex);
             db.pagination(taskList, currentPage, limit);
 
-            let currentItemLi = document.querySelector('li.pagination__pages-item--active');
-            currentItemLi.classList.remove('pagination__pages-item--active');
+            let currentItemLi = document.querySelector('li.pagination__list-item--active');
+            currentItemLi.classList.remove('pagination__list-item--active');
 
-            paginationEl.classList.add('pagination__pages-item--active');
+            paginationEl.classList.add('pagination__list-item--active');
         });
 
         return paginationEl;

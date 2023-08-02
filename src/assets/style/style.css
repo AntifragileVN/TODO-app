@@ -139,9 +139,9 @@ button {
     right: 0;
 }
 
-.task_delete-button:hover {
+.task_delete-img:hover {
     border-radius: 50%;
-    background: rgb(0, 0, 0, 15%);
+    background: rgb(0, 0, 0, 10%);
 }
 
 .task__item-top {
@@ -229,7 +229,7 @@ button {
     align-items: center;
 }
 
-.paggination__pages {
+.paggination__list {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -238,7 +238,7 @@ button {
     gap: 10px;
 }
 
-.pagination__pages-item {
+.pagination__list-item {
     cursor: pointer;
     width: 35px;
     height: 35px;
@@ -251,7 +251,7 @@ button {
     align-items: center;
 }
 
-.pagination__pages-item--active {
+.pagination__list-item--active {
     border: 1px solid #1c92d2;
 }
 

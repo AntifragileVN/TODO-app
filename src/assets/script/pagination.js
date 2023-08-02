@@ -58,13 +58,13 @@ nextButton.addEventListener('click', async (e) => {
 });
 
 const toggleActivePageClass = (nextPage) => {
-    let currentItemLi = document.querySelector('li.pagination__pages-item--active');
-    currentItemLi.classList.remove('pagination__pages-item--active');
+    let currentItemLi = document.querySelector('li.pagination__list-item--active');
+    currentItemLi.classList.remove('pagination__list-item--active');
 
-    let allpaginationBtn = [...document.querySelectorAll('.pagination__pages-item')];
+    let allpaginationBtn = [...document.querySelectorAll('.pagination__list-item')];
 
     let nextItem = allpaginationBtn.filter((el) => el.value === nextPage);
-    nextItem[0].classList.add('pagination__pages-item--active');
+    nextItem[0].classList.add('pagination__list-item--active');
 };
 
 export { currentPage, controlButtonStatus, main, setCurrentPage, limit };

@@ -1,9 +1,7 @@
-import { createElements } from './createElements.js';
+import { elementCreator } from './script.js';
 
 export class DataBase {
     constructor() {}
-
-    elementCreator = new createElements();
 
     // Return info of all task from DB, and create <li> elements  in given <ul> list
     getAllTasks(taskList) {
@@ -17,9 +15,10 @@ export class DataBase {
                 }
             })
             .then((DBtasks) => {
+                DBtasks.reverse();
                 taskList.replaceChildren();
                 DBtasks.forEach((DBelement) => {
-                    this.elementCreator.createListElement(DBelement, taskList);
+                    elementCreator.createListElement(DBelement, taskList);
                 });
             })
             .catch((error) => {
@@ -96,7 +95,7 @@ export class DataBase {
             .then((DBtasks) => {
                 taskList.replaceChildren();
                 DBtasks.forEach((DBelement) => {
-                    this.elementCreator.createListElement(DBelement, taskList);
+                    elementCreator.createListElement(DBelement, taskList);
                 });
             })
             .catch((error) => {
@@ -104,7 +103,7 @@ export class DataBase {
             });
     };
 
-    async taskRequest(url) {
+    async getJsonTaskList(url) {
         const response = await fetch(url, {
             method: 'GET',
             headers: { 'content-type': 'application/json' },
@@ -114,15 +113,10 @@ export class DataBase {
         return json;
     }
 
-    async getJsonTaskList() {
-        const allTasks = await this.taskRequest('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
-        return allTasks;
-    }
-
     // Function that return last index of task in order to be able to create task element with id.
     async getLastTaskIndex() {
         try {
-            const allTasks = await this.getJsonTaskList();
+            const allTasks = await this.getJsonTaskList('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
             const lastTask = allTasks[allTasks.length - 1];
             return lastTask.id;
         } catch (error) {
@@ -131,7 +125,7 @@ export class DataBase {
     }
 
     async getPagesQuantity(limit) {
-        const allTasks = await this.getJsonTaskList();
+        const allTasks = await this.getJsonTaskList('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
         const taskQuantity = allTasks.length;
 
         return Math.ceil(taskQuantity / limit);
