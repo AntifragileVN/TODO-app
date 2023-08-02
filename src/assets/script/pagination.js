@@ -67,4 +67,4 @@ const toggleActivePageClass = (nextPage) => {
     nextItem[0].classList.add('pagination__list-item--active');
 };
 
-export { currentPage, controlButtonStatus, main, setCurrentPage, limit };
+export { currentPage, controlButtonStatus, main, setCurrentPage, limit, toggleActivePageClass };

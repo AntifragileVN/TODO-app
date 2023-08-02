@@ -1,6 +1,6 @@
 import { DataBase } from './DB.js';
 import { createElements } from './createElements.js';
-import { main } from './pagination.js';
+import { main, limit, toggleActivePageClass } from './pagination.js';
 
 const taskList = document.querySelector('#task-list');
 const inputBox = document.querySelector('#input-box');
@@ -18,7 +18,7 @@ const elementCreator = new createElements();
 
 // event listener for button which create html task elements
 
-const confirm = () => {
+const confirm = async () => {
     if (inputBox.value == '') {
         alert('You must write something');
     } else {
@@ -29,7 +29,17 @@ const confirm = () => {
             id: db.getLastTaskIndex() + 1,
         };
         db.addTaskToDB(task);
-        db.getAllTasks(taskList);
+        db.pagination(taskList, 1, limit);
+
+        paginationList.querySelectorAll('.pagination__list-item').forEach((el) => {
+            if (el.value != 0) el.remove();
+        });
+
+        // paginationList.appendChild(elementCreator.elementFromHtml(getPrevTemplate()));
+        // paginationList.appendChild(elementCreator.elementFromHtml(getNextTemplate()));
+
+        elementCreator.displayPagination(paginationList, await db.getPagesQuantity(limit));
+        toggleActivePageClass(1);
     }
     inputBox.value = '';
 };

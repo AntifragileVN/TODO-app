@@ -76,31 +76,19 @@ export class DataBase {
             });
     }
 
-    pagination = (taskList, page, limit) => {
-        const url = new URL('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
-        // url.searchParams.append("completed", false);
-        url.searchParams.append('page', page);
-        url.searchParams.append('limit', limit);
+    pagination = async (taskList, page, limit) => {
+        let allTask = await this.getJsonTaskList('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
+        allTask = allTask.reverse();
 
-        fetch(url, {
-            method: 'GET',
-            headers: { 'content-type': 'application/json' },
-        })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                }
-                // handle error
-            })
-            .then((DBtasks) => {
-                taskList.replaceChildren();
-                DBtasks.forEach((DBelement) => {
-                    elementCreator.createListElement(DBelement, taskList);
-                });
-            })
-            .catch((error) => {
-                // handle error
-            });
+        const start = limit * (page - 1);
+        const end = start + limit;
+        const paginatedData = allTask.slice(start, end);
+        console.log(paginatedData);
+
+        taskList.replaceChildren();
+        paginatedData.forEach((DBelement) => {
+            elementCreator.createListElement(DBelement, taskList);
+        });
     };
 
     async getJsonTaskList(url) {

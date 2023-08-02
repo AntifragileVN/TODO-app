@@ -37,6 +37,21 @@ export class createElements {
     htmlPaginationTemplete = `<li class="pagination__list-item">
                                 <span class="pagination__item-content" id="page"></span>
                             </li>`;
+    htmlPrevPaginationTemplete = `<li class="pagination__list-item" id="prev">
+                                <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
+                            </li>`;
+
+    htmlNextPaginationTemplete = `<li class="pagination__list-item" id="next">
+                                <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
+                            </li>`;
+
+    getPrevTemplate = () => {
+        return this.htmlPrevPaginationTemplete;
+    };
+
+    getNextTemplate = () => {
+        return this.htmlNextPaginationTemplete;
+    };
 
     elementFromHtml = (html) => {
         const templete = document.createElement('template');
