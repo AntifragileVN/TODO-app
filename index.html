@@ -29,12 +29,7 @@
                     <ul class="task__list" id="task-list"></ul>
                     <div class="todo__add">
                         <div class="todo__add-inner">
-                            <input
-                                class="todo__input"
-                                type="text"
-                                id="input-box"
-                                placeholder="Write your task"
-                            />
+                            <input class="todo__input" type="text" id="input-box" placeholder="Write your task" />
                             <div class="todo__input-buttons">
                                 <img
                                     class="todo__input-clear"
@@ -53,15 +48,12 @@
 
                     <div class="pagination">
                         <ul class="paggination__pages" id="pagination">
-                            <li class="pagination__pages-item">
-                                <a class="pagination__item-content" href="#"
-                                    >1</a
-                                >
+                            <li class="pagination__pages-item" id="prev">
+                                <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
                             </li>
-                            <li class="pagination__pages-item">
-                                <a class="pagination__item-content" href="#"
-                                    >2</a
-                                >
+
+                            <li class="pagination__pages-item" id="next">
+                                <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
                             </li>
                         </ul>
                     </div>
@@ -69,5 +61,6 @@
             </div>
         </main>
         <script type="module" src="src/assets/script/script.js"></script>
+        <script type="module" src="src/assets/script/pagination.js"></script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-import { createElements } from "./createElements.js";
+import { createElements } from './createElements.js';
 
 export class DataBase {
     constructor() {}
@@ -7,9 +7,9 @@ export class DataBase {
 
     // Return info of all task from DB, and create <li> elements  in given <ul> list
     getAllTasks(taskList) {
-        fetch("https://64be77ea5ee688b6250c7762.mockapi.io/tasks", {
-            method: "GET",
-            headers: { "content-type": "application/json" },
+        fetch('https://64be77ea5ee688b6250c7762.mockapi.io/tasks', {
+            method: 'GET',
+            headers: { 'content-type': 'application/json' },
         })
             .then((res) => {
                 if (res.ok) {
@@ -17,7 +17,7 @@ export class DataBase {
                 }
             })
             .then((DBtasks) => {
-                taskList.textContent = "";
+                taskList.replaceChildren();
                 DBtasks.forEach((DBelement) => {
                     this.elementCreator.createListElement(DBelement, taskList);
                 });
@@ -29,9 +29,9 @@ export class DataBase {
 
     // add task to DB after creating a task
     addTaskToDB(newTask) {
-        fetch("https://64be77ea5ee688b6250c7762.mockapi.io/tasks", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
+        fetch('https://64be77ea5ee688b6250c7762.mockapi.io/tasks', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify(newTask),
         })
             .then((res) => {
@@ -39,15 +39,15 @@ export class DataBase {
             })
             .then((task) => {})
             .catch((error) => {
-                alert("addTask" + error);
+                alert('addTask' + error);
             });
     }
 
     // change completion of task by id
     markTaskCompleted(id, boolean) {
         fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
-            method: "PUT", // or PATCH
-            headers: { "content-type": "application/json" },
+            method: 'PUT', // or PATCH
+            headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ completed: boolean }),
         })
             .then((res) => {
@@ -64,7 +64,7 @@ export class DataBase {
     // delete task from DB by id
     deleteTaskFromDB(id) {
         fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
-            method: "DELETE",
+            method: 'DELETE',
         })
             .then((res) => {
                 if (res.ok) {
@@ -77,17 +77,15 @@ export class DataBase {
             });
     }
 
-    pagination = (page) => {
-        const url = new URL(
-            "https://64be77ea5ee688b6250c7762.mockapi.io/tasks"
-        );
+    pagination = (taskList, page, limit) => {
+        const url = new URL('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
         // url.searchParams.append("completed", false);
-        url.searchParams.append("page", 1);
-        url.searchParams.append("limit", 4);
+        url.searchParams.append('page', page);
+        url.searchParams.append('limit', limit);
 
         fetch(url, {
-            method: "GET",
-            headers: { "content-type": "application/json" },
+            method: 'GET',
+            headers: { 'content-type': 'application/json' },
         })
             .then((res) => {
                 if (res.ok) {
@@ -95,8 +93,11 @@ export class DataBase {
                 }
                 // handle error
             })
-            .then((tasks) => {
-                // mockapi returns first 10 tasks that are not completed
+            .then((DBtasks) => {
+                taskList.replaceChildren();
+                DBtasks.forEach((DBelement) => {
+                    this.elementCreator.createListElement(DBelement, taskList);
+                });
             })
             .catch((error) => {
                 // handle error
@@ -105,8 +106,8 @@ export class DataBase {
 
     async taskRequest(url) {
         const response = await fetch(url, {
-            method: "GET",
-            headers: { "content-type": "application/json" },
+            method: 'GET',
+            headers: { 'content-type': 'application/json' },
         });
 
         const json = await response.json();
@@ -114,9 +115,7 @@ export class DataBase {
     }
 
     async getJsonTaskList() {
-        const allTasks = await this.taskRequest(
-            "https://64be77ea5ee688b6250c7762.mockapi.io/tasks"
-        );
+        const allTasks = await this.taskRequest('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
         return allTasks;
     }
 
@@ -127,16 +126,14 @@ export class DataBase {
             const lastTask = allTasks[allTasks.length - 1];
             return lastTask.id;
         } catch (error) {
-            alert("getLastIndex" + error);
+            alert('getLastIndex' + error);
         }
     }
 
     async getPagesQuantity(limit) {
         const allTasks = await this.getJsonTaskList();
-        const taskQuantity = allTasks.length - 1;
+        const taskQuantity = allTasks.length;
 
         return Math.ceil(taskQuantity / limit);
     }
 }
-
-DataBase.elementCreator = new createElements();

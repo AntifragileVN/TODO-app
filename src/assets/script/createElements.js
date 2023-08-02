@@ -1,9 +1,10 @@
-import { toggleComplitionOfTask } from "./script.js";
+import { currentPage, setCurrentPage, limit, controlButtonStatus } from './pagination.js';
+import { toggleComplitionOfTask, db, taskList } from './script.js';
 
 export class createElements {
     constructor() {}
     // html templete of task
-    htmlTemplete = `<li class="task__item">
+    htmlTaskTemplete = `<li class="task__item">
                             <div class="task__item-wrapper">
                                 <div class="task__item-top">
                                     <p class="task__item-name" id="task-name"></p>  
@@ -33,14 +34,12 @@ export class createElements {
                                 </button>
                             </div>
                         </li>;`;
-
-    // get htmlTemplete() {
-    //     const htmlTemplete =
-    //     return htmlTemplete;
-    // }
+    htmlPaginationTemplete = `<li class="pagination__pages-item">
+                                <span class="pagination__item-content" id="page"></span>
+                            </li>`;
 
     elementFromHtml = (html) => {
-        const templete = document.createElement("template");
+        const templete = document.createElement('template');
 
         templete.innerHTML = html.trim();
 
@@ -48,18 +47,16 @@ export class createElements {
     };
 
     createListElement = ({ name, completed, createdTime, id }, taskList) => {
-        let listEl = this.elementFromHtml(this.htmlTemplete);
+        let listEl = this.elementFromHtml(this.htmlTaskTemplete);
 
         const date = new Date(createdTime);
-        let dateStr = `${date.getYear() + 1900}-${
-            date.getMonth() + 1
-        }-${date.getDate()}`;
+        let dateStr = `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()}`;
 
         let timeStr = `${date.getHours()}:${date.getMinutes()}`;
 
-        listEl.querySelector("#task-name").textContent = name;
-        listEl.querySelector("#task-day").textContent = dateStr;
-        listEl.querySelector("#task-time").textContent = timeStr;
+        listEl.querySelector('#task-name').textContent = name;
+        listEl.querySelector('#task-day').textContent = dateStr;
+        listEl.querySelector('#task-time').textContent = timeStr;
         listEl.id = id;
 
         if (completed) {
@@ -67,5 +64,35 @@ export class createElements {
         }
         taskList.appendChild(listEl);
         return listEl;
+    };
+
+    displayPagination = (paginationList, pageQuantity) => {
+        for (let i = 1; i <= pageQuantity; i++) {
+            const lastElement = paginationList.lastElementChild;
+            paginationList.insertBefore(this.createPaginationBtn(i), lastElement);
+        }
+    };
+
+    createPaginationBtn = (pageIndex) => {
+        let paginationEl = this.elementFromHtml(this.htmlPaginationTemplete);
+        paginationEl.querySelector('#page').textContent = pageIndex;
+        paginationEl.value = pageIndex;
+
+        if (currentPage == pageIndex) paginationEl.classList.add('pagination__pages-item--active');
+
+        controlButtonStatus();
+
+        paginationEl.addEventListener('click', (e) => {
+            controlButtonStatus();
+            setCurrentPage(pageIndex);
+            db.pagination(taskList, currentPage, limit);
+
+            let currentItemLi = document.querySelector('li.pagination__pages-item--active');
+            currentItemLi.classList.remove('pagination__pages-item--active');
+
+            paginationEl.classList.add('pagination__pages-item--active');
+        });
+
+        return paginationEl;
     };
 }
