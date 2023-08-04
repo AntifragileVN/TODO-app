@@ -20,8 +20,8 @@
                 <div class="todo">
                     <div class="todo__header">
                         <div class="todo__info">
-                            <h1 class="todo__title">Today`s Task</h1>
-                            <h5 class="todo__date">Wednesday , 11 May</h5>
+                            <h1 class="todo__title">Today Tasks</h1>
+                            <h5 class="todo__date" id="today-date"></h5>
                         </div>
                         <button class="todo__button">+ New Task</button>
                     </div>
@@ -48,11 +48,11 @@
 
                     <div class="pagination">
                         <ul class="paggination__list" id="pagination">
-                            <li class="pagination__list-item" id="prev">
+                            <li tabindex="0" class="pagination__list-item" id="prev">
                                 <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
                             </li>
 
-                            <li class="pagination__list-item" id="next">
+                            <li tabindex="0" class="pagination__list-item" id="next">
                                 <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
                             </li>
                         </ul>

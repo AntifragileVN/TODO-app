@@ -225,6 +225,10 @@ button {
     line-height: 28px;
 }
 
+.todo__input:focus {
+    outline: var(--grey400);
+}
+
 .todo__input::placeholder {
     color: var(--grey400);
 }
@@ -270,6 +274,10 @@ button {
     align-items: center;
 }
 
+.pagination__list-item:focus {
+    outline: solid 1px #000000;
+}
+
 .pagination__list-item--active {
     border: 1px solid #1c92d2;
 }
@@ -278,4 +286,16 @@ button {
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
+}
+
+.animation {
+    opacity: 1 !important;
+    transform: translateY(0px) !important;
+    transform: translateX(0px) !important;
+    transition: all 500ms ease-in-out !important;
+}
+
+.task__delete-animation {
+    transform: translatex(32px) !important;
+    transition: all 500ms ease-in-out !important;
 }

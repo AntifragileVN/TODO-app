@@ -5,7 +5,8 @@ const prevButton = document.querySelector('#prev');
 const nextButton = document.querySelector('#next');
 
 let currentPage = 1;
-let limit = 4;
+let pageQuantity = undefined;
+const limit = 4;
 
 const disableButton = (button) => {
     button.setAttribute('disabled', true);
@@ -20,38 +21,38 @@ const setCurrentPage = (newPage) => {
     return currentPage;
 };
 
-const getCurrentPage = () => {
-    return currentPage;
+const setPageQuantity = async () => {
+    pageQuantity = await db.getPagesQuantity(limit);
+    return pageQuantity;
 };
 
-const controlButtonStatus = async (limit) => {
+const controlButtonStatus = () => {
     currentPage === 1 ? disableButton(prevButton) : enableButton(prevButton);
 
-    currentPage === (await db.getPagesQuantity(limit)) ? disableButton(nextButton) : enableButton(nextButton);
+    currentPage === pageQuantity ? disableButton(nextButton) : enableButton(nextButton);
 };
 
 async function main() {
-    db.pagination(taskList, currentPage, limit);
-
-    elementCreator.displayPagination(paginationList, await db.getPagesQuantity(limit));
-    controlButtonStatus(limit);
+    pageQuantity = await db.getPagesQuantity(limit);
+    await db.pagination(taskList, currentPage, limit);
+    elementCreator.displayPagination(paginationList, pageQuantity);
 }
 
-prevButton.addEventListener('click', async (e) => {
-    await controlButtonStatus(limit);
+prevButton.addEventListener('click', (e) => {
+    controlButtonStatus();
 
     if (prevButton.getAttribute('disabled') == null) {
-        const nextPage = setCurrentPage(getCurrentPage() - 1);
+        const nextPage = setCurrentPage(currentPage - 1);
         db.pagination(taskList, currentPage, limit);
         toggleActivePageClass(nextPage);
     }
 });
 
-nextButton.addEventListener('click', async (e) => {
-    await controlButtonStatus(limit);
+nextButton.addEventListener('click', (e) => {
+    controlButtonStatus();
 
     if (nextButton.getAttribute('disabled') == null) {
-        const nextPage = setCurrentPage(getCurrentPage() + 1);
+        const nextPage = setCurrentPage(currentPage + 1);
         db.pagination(taskList, currentPage, limit);
         toggleActivePageClass(nextPage);
     }
@@ -67,4 +68,13 @@ const toggleActivePageClass = (nextPage) => {
     nextItem[0].classList.add('pagination__list-item--active');
 };
 
-export { currentPage, controlButtonStatus, main, setCurrentPage, limit, toggleActivePageClass };
+export {
+    currentPage,
+    controlButtonStatus,
+    main,
+    setCurrentPage,
+    limit,
+    toggleActivePageClass,
+    pageQuantity,
+    setPageQuantity,
+};

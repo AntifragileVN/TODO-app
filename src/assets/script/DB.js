@@ -83,7 +83,6 @@ export class DataBase {
         const start = limit * (page - 1);
         const end = start + limit;
         const paginatedData = allTask.slice(start, end);
-        console.log(paginatedData);
 
         taskList.replaceChildren();
         paginatedData.forEach((DBelement) => {

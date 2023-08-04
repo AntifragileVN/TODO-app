@@ -21,9 +21,9 @@ export class createElements {
                                     <p class="task__item-time" id="task-time"></p>
                                 </div>
                             </div>
-                            <div class="task__delete" id="delete-window">
+                            <div class="task__delete" 
                                 <button
-                                    id="delete-button"
+                                    class="task_delete-button"
                                     type="button"
                                 >
                                     <img
@@ -34,14 +34,14 @@ export class createElements {
                                 </button>
                             </div>
                         </li>;`;
-    htmlPaginationTemplete = `<li class="pagination__list-item">
+    htmlPaginationTemplete = `<li class="pagination__list-item" tabindex="0">
                                 <span class="pagination__item-content" id="page"></span>
                             </li>`;
-    htmlPrevPaginationTemplete = `<li class="pagination__list-item" id="prev">
+    htmlPrevPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="prev">
                                 <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
                             </li>`;
 
-    htmlNextPaginationTemplete = `<li class="pagination__list-item" id="next">
+    htmlNextPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="next">
                                 <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
                             </li>`;
 
@@ -61,13 +61,40 @@ export class createElements {
         return templete.content.firstElementChild;
     };
 
+    padWithZero = (num) => {
+        return num.toString().padStart(2, '0');
+    };
+
+    getTodayDate = () => {
+        const date = new Date();
+        const monthsOfYear = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ];
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        return `${daysOfWeek[date.getDay()]}, ${this.padWithZero(date.getDay())} ${monthsOfYear[date.getMonth()]}`;
+    };
+
     createListElement = ({ name, completed, createdTime, id }, taskList) => {
         let listEl = this.elementFromHtml(this.htmlTaskTemplete);
 
         const date = new Date(createdTime);
-        let dateStr = `${date.getYear() + 1900}-${date.getMonth() + 1}-${date.getDate()}`;
+        let dateStr = `${date.getYear() + 1900}-${this.padWithZero(date.getMonth() + 1)}-${this.padWithZero(
+            date.getDate()
+        )}`;
 
-        let timeStr = `${date.getHours()}:${date.getMinutes()}`;
+        let timeStr = `${this.padWithZero(date.getHours())}:${this.padWithZero(date.getMinutes())}`;
 
         listEl.querySelector('#task-name').textContent = name;
         listEl.querySelector('#task-day').textContent = dateStr;
@@ -92,10 +119,9 @@ export class createElements {
         let paginationEl = this.elementFromHtml(this.htmlPaginationTemplete);
         paginationEl.querySelector('#page').textContent = pageIndex;
         paginationEl.value = pageIndex;
+        // paginationEl.tabIndex = pageIndex;
 
         if (currentPage == pageIndex) paginationEl.classList.add('pagination__list-item--active');
-
-        controlButtonStatus();
 
         paginationEl.addEventListener('click', (e) => {
             controlButtonStatus();
