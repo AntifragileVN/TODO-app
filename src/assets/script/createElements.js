@@ -21,11 +21,11 @@ export class createElements {
                                     <p class="task__item-time" id="task-time"></p>
                                 </div>
                             </div>
-                            <div class="task__delete" 
+                            <div class="task__delete">
                                 <button
                                     class="task_delete-button"
-                                    type="button"
-                                >
+                                    type="button">
+                               
                                     <img
                                          class="task_delete-img"
                                         src="./src/components/icons/task__delete-button.svg"

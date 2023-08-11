@@ -72,7 +72,6 @@ taskList.addEventListener(
     'click',
     (e) => {
         //animation on delete window
-
         let item = e.target.closest('.task__item');
 
         if (e.target.closest('.task__delete') === null && e.target.id != 'my-icon') {
