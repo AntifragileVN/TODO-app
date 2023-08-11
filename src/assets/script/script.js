@@ -19,7 +19,7 @@ const elementCreator = new createElements();
 
 // event listener for button which create html task elements
 
-const confirm = async () => {
+async function confirm() {
     if (inputBox.value == '') {
         alert('You must write something');
         return;
@@ -42,7 +42,7 @@ const confirm = async () => {
     toggleActivePageClass(1);
 
     inputBox.value = '';
-};
+}
 
 confirmButton.addEventListener('click', () => {
     confirm();
@@ -88,7 +88,7 @@ taskList.addEventListener(
 );
 
 //Complete task
-const toggleComplitionOfTask = (listItem) => {
+function toggleComplitionOfTask(listItem) {
     const imgElement = listItem.querySelector('.task__button-icon');
     listItem.classList.toggle('task__completed');
 
@@ -99,7 +99,7 @@ const toggleComplitionOfTask = (listItem) => {
     }
     imgElement.src = './src/components/icons/task__uncompleted-button.svg';
     db.markTaskCompleted(listItem.id, false);
-};
+}
 
 main();
 todayDate.innerText = elementCreator.getTodayDate();

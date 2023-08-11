@@ -8,29 +8,29 @@ let currentPage = 1;
 let pageQuantity = undefined;
 const limit = 4;
 
-const disableButton = (button) => {
+function disableButton(button) {
     button.setAttribute('disabled', true);
-};
+}
 
-const enableButton = (button) => {
+function enableButton(button) {
     button.removeAttribute('disabled');
-};
+}
 
-const setCurrentPage = (newPage) => {
+function setCurrentPage(newPage) {
     currentPage = newPage;
     return currentPage;
-};
+}
 
-const setPageQuantity = async () => {
+async function setPageQuantity() {
     pageQuantity = await db.getPagesQuantity(limit);
     return pageQuantity;
-};
+}
 
-const controlButtonStatus = () => {
+function controlButtonStatus() {
     currentPage === 1 ? disableButton(prevButton) : enableButton(prevButton);
 
     currentPage === pageQuantity ? disableButton(nextButton) : enableButton(nextButton);
-};
+}
 
 async function main() {
     pageQuantity = await db.getPagesQuantity(limit);
@@ -38,7 +38,7 @@ async function main() {
     elementCreator.displayPagination(paginationList, pageQuantity);
 }
 
-prevButton.addEventListener('click', (e) => {
+prevButton.addEventListener('click', () => {
     controlButtonStatus();
 
     if (prevButton.getAttribute('disabled') == null) {
@@ -48,7 +48,7 @@ prevButton.addEventListener('click', (e) => {
     }
 });
 
-nextButton.addEventListener('click', (e) => {
+nextButton.addEventListener('click', () => {
     controlButtonStatus();
 
     if (nextButton.getAttribute('disabled') == null) {
@@ -58,7 +58,7 @@ nextButton.addEventListener('click', (e) => {
     }
 });
 
-const toggleActivePageClass = (nextPage) => {
+function toggleActivePageClass(nextPage) {
     let currentItemLi = document.querySelector('li.pagination__list-item--active');
     currentItemLi.classList.remove('pagination__list-item--active');
 
@@ -66,7 +66,7 @@ const toggleActivePageClass = (nextPage) => {
 
     let nextItem = allpaginationBtn.filter((el) => el.value === nextPage);
     nextItem[0].classList.add('pagination__list-item--active');
-};
+}
 
 export {
     currentPage,

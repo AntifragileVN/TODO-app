@@ -109,9 +109,13 @@ button {
     line-height: 32px;
 }
 
-.todo__button:hover,
-.todo__button:focus {
+.todo__button:hover {
     background: rgba(3, 129, 197, 0.192);
+}
+
+.todo__button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--grey50), 0 0 0 8px var(--main);
 }
 
 /*----------- TASK LIST -----------*/
@@ -203,6 +207,7 @@ button {
 
 .todo__add {
     opacity: 0;
+    display: none;
     transition: opacity 400ms, display 500ms, transform 400ms;
     transform: translateY(-50px);
 }
@@ -275,11 +280,17 @@ button {
 }
 
 .pagination__list-item:focus {
-    outline: solid 1px #000000;
+    outline: solid 1px var(--grey400);
+    box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--grey400);
 }
 
 .pagination__list-item--active {
     border: 1px solid #1c92d2;
+}
+
+.pagination__list-item--active:focus {
+    outline: solid 1px var(--main);
+    box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--main);
 }
 
 .pagination__item-content {
@@ -289,7 +300,8 @@ button {
 }
 
 .animation {
-    opacity: 1 !important;
+    opacity: 1;
+    display: block;
     transform: translateY(0px) !important;
     transform: translateX(0px) !important;
     transition: all 500ms ease-in-out !important;

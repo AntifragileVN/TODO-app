@@ -83,7 +83,7 @@ export class createElements {
         ];
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-        return `${daysOfWeek[date.getDay()]}, ${this.padWithZero(date.getDay())} ${monthsOfYear[date.getMonth()]}`;
+        return `${daysOfWeek[date.getDay()]}, ${this.padWithZero(date.getDate())} ${monthsOfYear[date.getMonth()]}`;
     };
 
     createListElement = ({ name, completed, createdTime, id }, taskList) => {

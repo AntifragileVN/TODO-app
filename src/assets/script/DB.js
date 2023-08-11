@@ -42,7 +42,6 @@ export class DataBase {
             });
     }
 
-    // change completion of task by id
     markTaskCompleted(id, boolean) {
         fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
             method: 'PUT', // or PATCH
@@ -60,7 +59,6 @@ export class DataBase {
             });
     }
 
-    // delete task from DB by id
     deleteTaskFromDB(id) {
         fetch(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
             method: 'DELETE',
