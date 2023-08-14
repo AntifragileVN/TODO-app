@@ -25,21 +25,12 @@ async function confirm() {
         return;
     }
 
-    const task = {
+    await db.addTaskToDB({
         name: inputBox.value,
         completed: false,
         createdTime: new Date().getTime(),
         id: db.getLastTaskIndex() + 1,
-    };
-    db.addTaskToDB(task);
-
-    paginationList.querySelectorAll('.pagination__list-item').forEach((el) => {
-        if (el.value != 0) el.remove();
     });
-
-    db.pagination(taskList, 1, limit);
-    elementCreator.displayPagination(paginationList, await setPageQuantity());
-    toggleActivePageClass(1);
 
     inputBox.value = '';
 }
@@ -70,7 +61,7 @@ addTaskButton.addEventListener('click', () => {
 
 taskList.addEventListener(
     'click',
-    (e) => {
+    async (e) => {
         //animation on delete window
         let item = e.target.closest('.task__item');
 
@@ -80,7 +71,12 @@ taskList.addEventListener(
             toggleComplitionOfTask(item);
         } else if (e.target.closest('.task_delete-button') !== null) {
             item.remove();
-            db.deleteTaskFromDB(item.id);
+            await db.deleteTaskFromDB(item.id);
+            db.pagination(
+                taskList,
+                document.querySelector('.pagination__list-item--active').value,
+                limit
+            );
         }
     },
     false

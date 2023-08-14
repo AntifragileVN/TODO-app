@@ -1,5 +1,6 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm';
-import { elementCreator } from './script.js';
+import { paginationList, elementCreator, taskList } from './script.js';
+import { limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
 export class DataBase {
     constructor() {}
 
@@ -14,19 +15,23 @@ export class DataBase {
                     elementCreator.createListElement(DBelement, taskList);
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }
 
     // add task to DB after creating a task
-    addTaskToDB({ name, completed, createdTime, id }) {
-        axios
+    async addTaskToDB({ name, completed, createdTime, id }) {
+        await axios
             .post('https://64be77ea5ee688b6250c7762.mockapi.io/tasks', {
                 name,
                 completed,
                 createdTime,
                 id,
             })
-            .then((res) => {})
+            .then(async (res) => {
+                await this.pagination(taskList, 1, limit);
+
+                elementCreator.createListElement({ name, completed, createdTime, id }, taskList);
+            })
             .catch((err) => console.error(err));
     }
 
@@ -39,8 +44,8 @@ export class DataBase {
             .catch((err) => console.error(err));
     }
 
-    deleteTaskFromDB(id) {
-        axios
+    async deleteTaskFromDB(id) {
+        await axios
             .delete(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`)
             .then(() => {})
             .catch((err) => console.error(err));
@@ -54,19 +59,31 @@ export class DataBase {
     }
 
     pagination = async (taskList, page, limit) => {
-        let allTask = await this.getJsonTaskList(
-            'https://64be77ea5ee688b6250c7762.mockapi.io/tasks'
-        );
-        allTask = allTask.reverse();
+        const url = new URL('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
 
-        const start = limit * (page - 1);
-        const end = start + limit;
-        const paginatedData = allTask.slice(start, end);
+        url.searchParams.append('sortBy', 'createdTime');
+        url.searchParams.append('order', 'desc');
+        url.searchParams.append('page', page);
+        url.searchParams.append('limit', limit);
 
-        taskList.replaceChildren();
-        paginatedData.forEach((DBelement) => {
-            elementCreator.createListElement(DBelement, taskList);
-        });
+        axios
+            .get(url)
+            .then(async (res) => {
+                taskList.replaceChildren();
+
+                res.data.forEach((DBelement) => {
+                    elementCreator.createListElement(DBelement, taskList);
+                });
+
+                paginationList.querySelectorAll('.pagination__list-item').forEach((el) => {
+                    if (el.value != 0) el.remove();
+                });
+
+                elementCreator.displayPagination(paginationList, await setPageQuantity());
+
+                toggleActivePageClass(page);
+            })
+            .catch((err) => console.error(err));
     };
 
     async getLastTaskIndex() {
@@ -77,6 +94,7 @@ export class DataBase {
             const lastTask = allTasks[allTasks.length - 1];
             return lastTask.id;
         } catch (error) {
+            return 1;
             alert('getLastIndex' + error);
         }
     }
