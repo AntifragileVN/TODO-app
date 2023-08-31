@@ -1,70 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="./src/assets/style/normalize.css" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./src/assets/style/style.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-            rel="stylesheet"
-        />
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" href="./src/assets/style/normalize.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./src/assets/style/style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+			rel="stylesheet"
+		/>
 
-        <title>TODO</title>
-    </head>
-    <body>
-        <main>
-            <div class="container">
-                <div class="todo">
-                    <div class="todo__header">
-                        <div class="todo__info">
-                            <h1 class="todo__title">Today Tasks</h1>
-                            <h5 class="todo__date" id="today-date"></h5>
-                        </div>
-                        <button class="todo__button">+ New Task</button>
-                    </div>
+		<title>TODO</title>
+	</head>
+	<body>
+		<main>
+			<div class="container">
+				<div class="todo">
+					<div class="todo__header">
+						<div class="todo__info">
+							<h1 class="todo__title">Today Tasks</h1>
+							<h5 class="todo__date" id="today-date"></h5>
+						</div>
+						<button class="todo__button">+ New Task</button>
+					</div>
 
-                    <ul class="task__list" id="task-list"></ul>
+					<ul class="task__list" id="task-list"></ul>
 
-                    <div class="todo__add">
-                        <div class="todo__add-inner">
-                            <input class="todo__input" type="text" id="input-box" placeholder="Write your task" />
-                            <div class="todo__input-buttons">
-                                <img
-                                    class="todo__input-clear"
-                                    id="input-clear-button"
-                                    src="./src/components/icons/input-clear.svg"
-                                    alt="clear button"
-                                />
-                                <img
-                                    class="todo__input-confirm"
-                                    src="./src/components/icons/input-confirm.svg"
-                                    alt="confirm button"
-                                />
-                            </div>
-                        </div>
-                    </div>
+					<div class="todo__add">
+						<div class="todo__add-inner">
+							<input
+								class="todo__input"
+								type="text"
+								id="input-box"
+								placeholder="Write your task"
+							/>
+							<div class="todo__input-buttons">
+								<img
+									class="todo__input-clear"
+									id="input-clear-button"
+									src="./src/components/icons/input-clear.svg"
+									alt="clear button"
+								/>
+								<img
+									class="todo__input-confirm"
+									src="./src/components/icons/input-confirm.svg"
+									alt="confirm button"
+								/>
+							</div>
+						</div>
+					</div>
 
-                    <div class="pagination">
-                        <ul class="paggination__list" id="pagination">
-                            <li tabindex="0" class="pagination__list-item" id="prev">
-                                <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
-                            </li>
+					<div class="pagination">
+						<ul class="paggination__list" id="pagination">
+							<li tabindex="0" class="pagination__list-item" id="prev">
+								<img
+									src="./src/components/icons/pagination_arrow-left.svg"
+									alt="arrow-left"
+								/>
+							</li>
 
-                            <li tabindex="0" class="pagination__list-item" id="next">
-                                <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <script type="module" src="src/assets/script/script.js"></script>
-        <script type="module" src="src/assets/script/pagination.js"></script>
-        <script type="module">
-            import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm'
-        </script>
-    </body>
+							<li tabindex="0" class="pagination__list-item" id="next">
+								<img
+									src="./src/components/icons/pagination_arrow-right.svg"
+									alt="arrow-right"
+								/>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</main>
+		<script type="module" src="src/assets/script/script.js"></script>
+		<script type="module" src="src/assets/script/pagination.js"></script>
+		<script type="module">
+			import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm';
+		</script>
+	</body>
 </html>

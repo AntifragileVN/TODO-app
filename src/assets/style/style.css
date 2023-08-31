@@ -1,6 +1,8 @@
 /* Table of Content:
 
-1. GENERAL
+0. GENERAL
+
+1. REUSUABLE CLASES
 
 2. TODO
 
@@ -14,300 +16,325 @@
 
 /*----------- GENERAL -----------*/
 :root {
-    --grey500: #737373;
-    --grey400: #a3a3a3;
-    --grey300: #d4d4d4;
-    --grey200: #e5e5e5;
-    --grey100: #f5f5f5;
-    --grey50: #fafafa;
-    --main: #1c92d2;
+	/*=========== COLORS ===========*/
+	--grey500: #737373;
+	--grey400: #a3a3a3;
+	--grey300: #d4d4d4;
+	--grey200: #e5e5e5;
+	--grey50: #fafafa;
+	--white-color: #fff;
+	--main-color: #1c92d2;
+	--body-color: linear-gradient(to right, var(--main), #f2fcfe);
+	--container-color: #f5f5f5;
+
+	/*=========== FONT AND TYPOGRAPHY ===========*/
+	--body-font: 'Inter', sans-serif;
+	--biggest-font-size: 40px;
+	--h2-font-size: 24px;
+	--normal-font-size: 16px;
+	--small-font-size: 14px;
+
+	/*=========== FONT WEIGHT ===========*/
+	--font-medium: 500;
+	--font-semi-bold: 600;
+	--font-bold: 700;
 }
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: var(--body-font);
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    margin: 0;
+	margin: 0;
 }
 
-button {
-    border: none;
-    background: none;
+button,
+input {
+	border: none;
+	cursor: pointer;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Inter;
+ul {
+	list-style: none;
 }
+
+a {
+	text-decoration: none;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+body {
+	background: linear-gradient(to right, #1c92d2, #f2fcfe);
+}
+
+/*=========== REUSUABLE CLASSES ===========*/
 
 .task__completed {
-    text-decoration: line-through;
-    color: var(--grey300);
-    background: var(--grey100) !important;
-}
-
-.hide {
-    display: none;
-    opacity: 0;
-}
-
-.show {
-    display: block;
+	text-decoration: line-through;
+	color: var(--grey300);
+	background: var(--grey100) !important;
 }
 
 .container {
-    background: linear-gradient(to right, #1c92d2, #f2fcfe);
-    min-height: 100vh;
-    padding: 10px;
+	min-height: 100vh;
+	padding: 10px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*----------- TODO -----------*/
 
 .todo {
-    width: 100%;
-    max-width: 750px;
-    background: var(--grey100);
-    padding: 60px 50px 10px;
-    border-radius: 10px;
+	width: 100%;
+	max-width: 750px;
+	background: var(--container-color);
+	padding: 60px 50px 10px;
+	border-radius: 10px;
 }
 
 .todo__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 25px;
 }
 
 .todo__title {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: 48px;
+	font-weight: bold;
+	font-size: 40px;
+	line-height: 48px;
 }
 
 .todo__date {
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 32px;
-    color: var(--grey400);
+	font-weight: var(--font-medium);
+	font-size: 24px;
+	line-height: 32px;
+	color: var(--grey400);
 }
 
 .todo__button {
-    border: solid 2px rgb(28, 146, 210, 15%);
-    background: rgb(0, 133, 207, 8%);
-    color: #0069ca;
-    padding: 6px 20px;
-    border-radius: 10px;
+	border: solid 2px rgb(28, 146, 210, 15%);
+	background: rgb(0, 133, 207, 8%);
+	color: #0069ca;
+	padding: 6px 20px;
+	border-radius: 10px;
 
-    font-size: 24px;
-    line-height: 32px;
+	font-size: 24px;
+	line-height: 32px;
 }
 
 .todo__button:hover {
-    background: rgba(3, 129, 197, 0.192);
+	background: rgba(3, 129, 197, 0.192);
 }
 
 .todo__button:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px var(--grey50), 0 0 0 8px var(--main);
+	outline: none;
+	box-shadow: 0 0 0 4px var(--grey50), 0 0 0 8px var(--main-color);
 }
 
 /*----------- TASK LIST -----------*/
 
-.task__list {
-    list-style: none;
-}
-
 .task__item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    border-radius: 10px;
-    box-shadow: 3px 4px 4px rgb(0, 0, 0, 15%);
-    position: relative;
-    max-height: 103px;
-    /* Max-height or height ? */
+	display: flex;
+	align-items: center;
+	margin-bottom: 25px;
+	border-radius: 10px;
+	box-shadow: 3px 4px 4px rgb(0, 0, 0, 15%);
+	position: relative;
+	max-height: 103px;
+	/* Max-height or height ? */
 }
 
 .task__item-wrapper {
-    width: 100%;
-    padding: 12px 20px;
-    background: var(--grey50);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
-    z-index: 100;
+	width: 100%;
+	padding: 12px 20px;
+	background: var(--grey50);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
+	z-index: 100;
 }
 
 .task__delete {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0px 10px 10px 0px;
-    background: var(--grey200);
-    height: 100%;
-    padding: 0px 0px 0px 4px;
-    box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
-    position: absolute;
-    z-index: 90;
-    right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0px 10px 10px 0px;
+	background: var(--grey200);
+	height: 100%;
+	padding: 0px 0px 0px 4px;
+	box-shadow: 1px 0px 4px rgb(0, 0, 0, 15%);
+	position: absolute;
+	z-index: 90;
+	right: 0;
 }
 
 .task_delete-img:hover,
 .task_delete-img:focus {
-    border-radius: 50%;
-    background: rgb(0, 0, 0, 10%);
+	border-radius: 50%;
+	background: rgb(0, 0, 0, 10%);
 }
 
 .task__item-top {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .task__item-name {
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 32px;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 32px;
 }
 
 .task__item-line {
-    border: solid 1.7px var(--grey300);
-    border-radius: 10px;
+	border: solid 1.7px var(--grey300);
+	border-radius: 10px;
 }
 
 .task__item-date {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 .task__item-day {
-    color: var(--grey500);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
+	color: var(--grey500);
+	font-weight: var(--font-medium);
+	font-size: 16px;
+	line-height: 24px;
 }
 
 .task__item-time {
-    color: var(--grey300);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
+	color: var(--grey300);
+	font-weight: var(--font-medium);
+	font-size: 16px;
+	line-height: 24px;
 }
 
 /*----------- ADD TASK WINDOW -----------*/
 
 .todo__add {
-    opacity: 0;
-    display: none;
-    transition: opacity 400ms, display 500ms, transform 400ms;
-    transform: translateY(-50px);
+	opacity: 0;
+	display: none;
+	transition: opacity 400ms, display 500ms, transform 400ms;
+	transform: translateY(-50px);
 }
 
 .todo__add-inner {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 20px;
-    background: var(--grey50);
-    border-radius: 10px;
-    box-shadow: 3px 4px 6px rgb(0, 0, 0, 15%);
+	display: flex;
+	justify-content: space-between;
+	padding: 12px 20px;
+	background: var(--grey50);
+	border-radius: 10px;
+	box-shadow: 3px 4px 6px rgb(0, 0, 0, 15%);
 }
 
 .todo__input {
-    border: none;
-    width: 100%;
-    max-width: 560px;
-    background: var(--grey50);
-    font-size: 20px;
-    line-height: 28px;
+	border: none;
+	width: 100%;
+	max-width: 560px;
+	background: var(--grey50);
+	font-size: 20px;
+	line-height: 28px;
 }
 
 .todo__input:focus {
-    outline: var(--grey400);
+	outline: var(--grey400);
 }
 
 .todo__input::placeholder {
-    color: var(--grey400);
+	color: var(--grey400);
 }
 
 .todo__input-buttons {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .todo__input-clear:hover,
 .todo__input-clear:focus {
-    background: rgb(0, 0, 0, 5%);
-    color: #000000;
-    border-radius: 50%;
+	background: rgb(0, 0, 0, 5%);
+	color: #000000;
+	border-radius: 50%;
 }
 
 /*----------- PAGINATION -----------*/
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .paggination__list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    list-style: none;
-    gap: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 10px;
 }
 
 .pagination__list-item {
-    cursor: pointer;
-    width: 35px;
-    height: 35px;
-    border: 1px solid rgb(0, 0, 0, 15%);
-    border-radius: 5px;
-    background: var(--grey50);
+	cursor: pointer;
+	width: 35px;
+	height: 35px;
+	border: 1px solid rgb(0, 0, 0, 15%);
+	border-radius: 5px;
+	background: var(--grey50);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .pagination__list-item:focus {
-    outline: solid 1px var(--grey400);
-    box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--grey400);
+	outline: solid 1px var(--grey400);
+	box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--grey400);
 }
 
 .pagination__list-item--active {
-    border: 1px solid #1c92d2;
+	border: 1px solid var(--main-color);
 }
 
 .pagination__list-item--active:focus {
-    outline: solid 1px var(--main);
-    box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--main);
+	outline: solid 1px var(--main-color);
+	box-shadow: 0 0 0 3px var(--grey50), 0 0 0 6px var(--main-color);
 }
 
 .pagination__item-content {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 24px;
+	font-size: var(--small-font-size);
+	font-weight: var(--font-semi-bold);
+	line-height: 24px;
 }
 
 .animation {
-    opacity: 1;
-    display: block;
-    transform: translateY(0px) !important;
-    transform: translateX(0px) !important;
-    transition: all 500ms ease-in-out !important;
+	opacity: 1;
+	display: block;
+	transform: translateY(0px) !important;
+	transform: translateX(0px) !important;
+	transition: all 500ms ease-in-out !important;
 }
 
 .task__delete-animation {
-    transform: translatex(32px) !important;
-    transition: all 500ms ease-in-out !important;
+	transform: translatex(32px) !important;
+	transition: all 500ms ease-in-out !important;
 }
