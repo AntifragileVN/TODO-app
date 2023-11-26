@@ -106,14 +106,10 @@ body {
 	width: 100%;
 	max-width: 750px;
 	background: var(--container-color);
-	padding: 60px 50px 10px;
 	border-radius: 10px;
 }
 
 .todo__header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	margin-bottom: 25px;
 }
 
@@ -138,7 +134,8 @@ body {
 	border-radius: 10px;
 
 	font-size: 24px;
-	line-height: 32px;
+	line-height: 1.3;
+	transition: background 250ms;
 }
 
 .todo__button:hover {
@@ -337,4 +334,33 @@ body {
 .task__delete-animation {
 	transform: translatex(32px) !important;
 	transition: all 500ms ease-in-out !important;
+}
+
+@media screen and (min-width: 568px) {
+	.todo {
+		padding-top: 60px;
+		padding-left: 50px;
+		padding-right: 50px;
+		padding-bottom: 10px;
+	}
+
+	.todo__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 25px;
+	}
+}
+
+@media screen and (max-width: 567px) {
+	.todo {
+		padding-top: 30px;
+		padding-left: 15px;
+		padding-right: 15px;
+		padding-bottom: 10px;
+	}
+
+	.todo__info {
+		margin-bottom: 15px;
+	}
 }

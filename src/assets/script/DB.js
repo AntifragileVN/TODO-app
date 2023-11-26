@@ -1,27 +1,16 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm';
 import { paginationList, elementCreator, taskList } from './script.js';
 import { limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
-export class DataBase {
-	constructor() {}
 
-	// Create <li> elements in given <ul> list from mockApi
-	getAllTasks(taskList) {
-		axios
-			.get('https://64be77ea5ee688b6250c7762.mockapi.io/tasks')
-			.then((res) => {
-				res.data.reverse();
-				taskList.replaceChildren();
-				res.data.forEach((DBelement) => {
-					elementCreator.createListElement(DBelement, taskList);
-				});
-			})
-			.catch((err) => console.error(err));
+export class DataBase {
+	constructor() {
+		axios.defaults.baseURL = 'https://65631b1dee04015769a6cc8f.mockapi.io';
 	}
 
 	// add task to DB after creating a task
 	async addTaskToDB({ name, completed, createdTime, id }) {
 		await axios
-			.post('https://64be77ea5ee688b6250c7762.mockapi.io/tasks', {
+			.post('/tasks', {
 				name,
 				completed,
 				createdTime,
@@ -40,7 +29,7 @@ export class DataBase {
 
 	markTaskCompleted(id, boolean) {
 		axios
-			.put(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`, {
+			.put(`/tasks/${id}`, {
 				completed: boolean,
 			})
 			.then((res) => {})
@@ -49,7 +38,7 @@ export class DataBase {
 
 	async deleteTaskFromDB(id) {
 		await axios
-			.delete(`https://64be77ea5ee688b6250c7762.mockapi.io/tasks/${id}`)
+			.delete(`/tasks/${id}`)
 			.then(() => {})
 			.catch((err) => console.error(err));
 	}
@@ -62,7 +51,7 @@ export class DataBase {
 	}
 
 	pagination = async (taskList, page, limit) => {
-		const url = new URL('https://64be77ea5ee688b6250c7762.mockapi.io/tasks');
+		const url = new URL('https://65631b1dee04015769a6cc8f.mockapi.io/tasks');
 
 		url.searchParams.append('sortBy', 'createdTime');
 		url.searchParams.append('order', 'desc');
@@ -93,9 +82,7 @@ export class DataBase {
 
 	async getLastTaskIndex() {
 		try {
-			const allTasks = await this.getJsonTaskList(
-				'https://64be77ea5ee688b6250c7762.mockapi.io/tasks'
-			);
+			const allTasks = await this.getJsonTaskList('/tasks');
 			const lastTask = allTasks[allTasks.length - 1];
 			return lastTask.id;
 		} catch (error) {
@@ -104,9 +91,7 @@ export class DataBase {
 	}
 
 	async getPagesQuantity(limit) {
-		const allTasks = await this.getJsonTaskList(
-			'https://64be77ea5ee688b6250c7762.mockapi.io/tasks'
-		);
+		const allTasks = await this.getJsonTaskList('/tasks');
 		const taskQuantity = allTasks.length;
 
 		return Math.ceil(taskQuantity / limit);
