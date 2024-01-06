@@ -6,7 +6,7 @@ import {
 	getLastTaskIndex,
 } from './DB.js';
 import { main, limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
-import { getTodayDate } from './createElements.js';
+import { getCurrentDate } from './time.js';
 
 /=============== GENERAL TODO APP ELEMENTS ===============/;
 const taskList = document.querySelector('#task-list');
@@ -103,6 +103,6 @@ function toggleComplitionOfTask(listItem) {
 }
 
 main();
-todayDate.innerText = getTodayDate();
+todayDate.innerText = getCurrentDate();
 
 export { toggleComplitionOfTask, paginationList, taskList };

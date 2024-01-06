@@ -16,33 +16,39 @@ export const addTaskToDB = async ({ name, completed, createdTime, id }) => {
 		})
 		.then(async (res) => {
 			await pagination(taskList, 1, limit);
-
 			createListElement({ name, completed, createdTime, id }, taskList);
 		})
 		.catch((err) => console.error(err));
 };
 
 export const markTaskCompleted = (id, boolean) => {
-	axios
-		.put(`/tasks/${id}`, {
+	try {
+		axios.put(`/tasks/${id}`, {
 			completed: boolean,
-		})
-		.then((res) => {})
-		.catch((err) => console.error(err));
+		});
+	} catch (error) {
+		console.log('CHANGE TASK COMPLITION ERROR');
+		console.error(error);
+	}
 };
 
 export const deleteTaskFromDB = async (id) => {
-	await axios
-		.delete(`/tasks/${id}`)
-		.then(() => {})
-		.catch((err) => console.error(err));
+	try {
+		await axios.delete(`/tasks/${id}`);
+	} catch (error) {
+		console.log('DELETE TASK ERROR');
+		console.error(error);
+	}
 };
 
-export const getJsonTaskList = async (url) => {
-	const response = await axios.get(url);
-	const data = response.data;
-
-	return data;
+export const getAllTodos = async () => {
+	try {
+		const response = await axios.get('/tasks');
+		return response.data;
+	} catch (error) {
+		console.log('GET TASK ERROR');
+		console.error(error);
+	}
 };
 
 export const pagination = async (taskList, page, limit) => {
@@ -75,7 +81,7 @@ export const pagination = async (taskList, page, limit) => {
 
 export const getLastTaskIndex = async () => {
 	try {
-		const allTasks = await getJsonTaskList('/tasks');
+		const allTasks = await getAllTodos();
 		const lastTask = allTasks[allTasks.length - 1];
 		return lastTask.id;
 	} catch (error) {
@@ -84,7 +90,7 @@ export const getLastTaskIndex = async () => {
 };
 
 export const getPagesQuantity = async (limit) => {
-	const allTasks = await getJsonTaskList('/tasks');
+	const allTasks = await getAllTodos();
 	const taskQuantity = allTasks.length;
 
 	return Math.ceil(taskQuantity / limit);

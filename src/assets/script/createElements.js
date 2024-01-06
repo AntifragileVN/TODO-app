@@ -1,6 +1,7 @@
 import { currentPage, setCurrentPage, limit, controlButtonStatus } from './pagination.js';
 import { pagination } from './DB.js';
 import { toggleComplitionOfTask, taskList } from './script.js';
+import { getTodoCreatedTime, getTodocreatedDate } from './time.js';
 
 // html templete of task
 export const htmlTaskTemplete = `<li class="task__item">
@@ -56,46 +57,11 @@ export const padWithZero = (num) => {
 	return num.toString().padStart(2, '0');
 };
 
-export const getTodayDate = () => {
-	const date = new Date();
-	const monthsOfYear = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December',
-	];
-	const daysOfWeek = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-	];
-
-	return `${daysOfWeek[date.getDay()]}, ${padWithZero(date.getDate())} ${
-		monthsOfYear[date.getMonth()]
-	}`;
-};
-
 export const createListElement = ({ name, completed, createdTime, id }, taskList) => {
 	let listEl = elementFromHtml(htmlTaskTemplete);
 
-	const date = new Date(createdTime);
-	let dateStr = `${date.getYear() + 1900}-${padWithZero(
-		date.getMonth() + 1
-	)}-${padWithZero(date.getDate())}`;
-
-	let timeStr = `${padWithZero(date.getHours())}:${padWithZero(date.getMinutes())}`;
+	let dateStr = getTodocreatedDate(createdTime);
+	let timeStr = getTodoCreatedTime(createdTime);
 
 	listEl.querySelector('#task-name').textContent = name;
 	listEl.querySelector('#task-day').textContent = dateStr;
