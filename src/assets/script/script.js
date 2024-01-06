@@ -1,6 +1,12 @@
-import { DataBase } from './DB.js';
-import { createElements } from './createElements.js';
+import {
+	addTaskToDB,
+	deleteTaskFromDB,
+	pagination,
+	markTaskCompleted,
+	getLastTaskIndex,
+} from './DB.js';
 import { main, limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
+import { getTodayDate } from './createElements.js';
 
 /=============== GENERAL TODO APP ELEMENTS ===============/;
 const taskList = document.querySelector('#task-list');
@@ -15,10 +21,6 @@ const inputBox = document.querySelector('#input-box');
 const confirmButton = document.querySelector('.todo__input-confirm');
 const clearButton = document.querySelector('#input-clear-button');
 
-/=============== IMPORTED CLASSES ===============/;
-const db = new DataBase();
-const elementCreator = new createElements();
-
 // event listener for button which create html task elements
 
 async function confirm() {
@@ -27,11 +29,11 @@ async function confirm() {
 		return;
 	}
 
-	await db.addTaskToDB({
+	await addTaskToDB({
 		name: inputBox.value,
 		completed: false,
 		createdTime: new Date().getTime(),
-		id: db.getLastTaskIndex() + 1,
+		id: getLastTaskIndex() + 1,
 	});
 
 	inputBox.value = '';
@@ -75,8 +77,8 @@ taskList.addEventListener(
 			toggleComplitionOfTask(item);
 		} else if (e.target.closest('.task_delete-button') !== null) {
 			item.remove();
-			await db.deleteTaskFromDB(item.id);
-			db.pagination(
+			await deleteTaskFromDB(item.id);
+			pagination(
 				taskList,
 				document.querySelector('.pagination__list-item--active').value,
 				limit
@@ -93,14 +95,14 @@ function toggleComplitionOfTask(listItem) {
 
 	if (imgElement.src.includes('uncompleted')) {
 		imgElement.src = './src/components/icons/task__completed-button.svg';
-		db.markTaskCompleted(listItem.id, true);
+		markTaskCompleted(listItem.id, true);
 		return;
 	}
 	imgElement.src = './src/components/icons/task__uncompleted-button.svg';
-	db.markTaskCompleted(listItem.id, false);
+	markTaskCompleted(listItem.id, false);
 }
 
 main();
-todayDate.innerText = elementCreator.getTodayDate();
+todayDate.innerText = getTodayDate();
 
-export { toggleComplitionOfTask, db, paginationList, elementCreator, taskList };
+export { toggleComplitionOfTask, paginationList, taskList };

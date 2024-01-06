@@ -1,10 +1,9 @@
 import { currentPage, setCurrentPage, limit, controlButtonStatus } from './pagination.js';
-import { toggleComplitionOfTask, db, taskList } from './script.js';
+import { pagination } from './DB.js';
+import { toggleComplitionOfTask, taskList } from './script.js';
 
-export class createElements {
-    constructor() {}
-    // html templete of task
-    htmlTaskTemplete = `<li class="task__item">
+// html templete of task
+export const htmlTaskTemplete = `<li class="task__item">
                             <div class="task__item-wrapper">
                                 <div class="task__item-top">
                                     <p class="task__item-name" id="task-name"></p>  
@@ -34,106 +33,108 @@ export class createElements {
                                 </button>
                             </div>
                         </li>;`;
-    htmlPaginationTemplete = `<li class="pagination__list-item" tabindex="0">
+export const htmlPaginationTemplete = `<li class="pagination__list-item" tabindex="0">
                                 <span class="pagination__item-content" id="page"></span>
                             </li>`;
-    htmlPrevPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="prev">
+export const htmlPrevPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="prev">
                                 <img src="./src/components/icons/pagination_arrow-left.svg" alt="" />
                             </li>`;
 
-    htmlNextPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="next">
+export const htmlNextPaginationTemplete = `<li class="pagination__list-item" tabindex="0" id="next">
                                 <img src="./src/components/icons/pagination_arrow-right.svg" alt="" />
                             </li>`;
 
-    getPrevTemplate = () => {
-        return this.htmlPrevPaginationTemplete;
-    };
+export const elementFromHtml = (html) => {
+	const templete = document.createElement('template');
 
-    getNextTemplate = () => {
-        return this.htmlNextPaginationTemplete;
-    };
+	templete.innerHTML = html.trim();
 
-    elementFromHtml = (html) => {
-        const templete = document.createElement('template');
+	return templete.content.firstElementChild;
+};
 
-        templete.innerHTML = html.trim();
+export const padWithZero = (num) => {
+	return num.toString().padStart(2, '0');
+};
 
-        return templete.content.firstElementChild;
-    };
+export const getTodayDate = () => {
+	const date = new Date();
+	const monthsOfYear = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	const daysOfWeek = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
 
-    padWithZero = (num) => {
-        return num.toString().padStart(2, '0');
-    };
+	return `${daysOfWeek[date.getDay()]}, ${padWithZero(date.getDate())} ${
+		monthsOfYear[date.getMonth()]
+	}`;
+};
 
-    getTodayDate = () => {
-        const date = new Date();
-        const monthsOfYear = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ];
-        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const createListElement = ({ name, completed, createdTime, id }, taskList) => {
+	let listEl = elementFromHtml(htmlTaskTemplete);
 
-        return `${daysOfWeek[date.getDay()]}, ${this.padWithZero(date.getDate())} ${monthsOfYear[date.getMonth()]}`;
-    };
+	const date = new Date(createdTime);
+	let dateStr = `${date.getYear() + 1900}-${padWithZero(
+		date.getMonth() + 1
+	)}-${padWithZero(date.getDate())}`;
 
-    createListElement = ({ name, completed, createdTime, id }, taskList) => {
-        let listEl = this.elementFromHtml(this.htmlTaskTemplete);
+	let timeStr = `${padWithZero(date.getHours())}:${padWithZero(date.getMinutes())}`;
 
-        const date = new Date(createdTime);
-        let dateStr = `${date.getYear() + 1900}-${this.padWithZero(date.getMonth() + 1)}-${this.padWithZero(
-            date.getDate()
-        )}`;
+	listEl.querySelector('#task-name').textContent = name;
+	listEl.querySelector('#task-day').textContent = dateStr;
+	listEl.querySelector('#task-time').textContent = timeStr;
+	listEl.id = id;
 
-        let timeStr = `${this.padWithZero(date.getHours())}:${this.padWithZero(date.getMinutes())}`;
+	if (completed) {
+		toggleComplitionOfTask(listEl);
+	}
+	taskList.appendChild(listEl);
+	return listEl;
+};
 
-        listEl.querySelector('#task-name').textContent = name;
-        listEl.querySelector('#task-day').textContent = dateStr;
-        listEl.querySelector('#task-time').textContent = timeStr;
-        listEl.id = id;
+export const displayPagination = (paginationList, pageQuantity) => {
+	for (let i = 1; i <= pageQuantity; i++) {
+		const lastElement = paginationList.lastElementChild;
+		paginationList.insertBefore(createPaginationBtn(i), lastElement);
+	}
+};
 
-        if (completed) {
-            toggleComplitionOfTask(listEl);
-        }
-        taskList.appendChild(listEl);
-        return listEl;
-    };
+export const createPaginationBtn = (pageIndex) => {
+	let paginationEl = elementFromHtml(htmlPaginationTemplete);
+	paginationEl.querySelector('#page').textContent = pageIndex;
+	paginationEl.value = pageIndex;
+	// paginationEl.tabIndex = pageIndex;
 
-    displayPagination = (paginationList, pageQuantity) => {
-        for (let i = 1; i <= pageQuantity; i++) {
-            const lastElement = paginationList.lastElementChild;
-            paginationList.insertBefore(this.createPaginationBtn(i), lastElement);
-        }
-    };
+	if (currentPage == pageIndex)
+		paginationEl.classList.add('pagination__list-item--active');
 
-    createPaginationBtn = (pageIndex) => {
-        let paginationEl = this.elementFromHtml(this.htmlPaginationTemplete);
-        paginationEl.querySelector('#page').textContent = pageIndex;
-        paginationEl.value = pageIndex;
-        // paginationEl.tabIndex = pageIndex;
+	paginationEl.addEventListener('click', (e) => {
+		controlButtonStatus();
+		setCurrentPage(pageIndex);
+		pagination(taskList, currentPage, limit);
 
-        if (currentPage == pageIndex) paginationEl.classList.add('pagination__list-item--active');
+		let currentItemLi = document.querySelector('li.pagination__list-item--active');
+		currentItemLi.classList.remove('pagination__list-item--active');
 
-        paginationEl.addEventListener('click', (e) => {
-            controlButtonStatus();
-            setCurrentPage(pageIndex);
-            db.pagination(taskList, currentPage, limit);
+		paginationEl.classList.add('pagination__list-item--active');
+	});
 
-            let currentItemLi = document.querySelector('li.pagination__list-item--active');
-            currentItemLi.classList.remove('pagination__list-item--active');
-
-            paginationEl.classList.add('pagination__list-item--active');
-        });
-
-        return paginationEl;
-    };
-}
+	return paginationEl;
+};
