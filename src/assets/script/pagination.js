@@ -9,14 +9,6 @@ let currentPage = 1;
 let pageQuantity = undefined;
 const limit = 4;
 
-function disableButton(button) {
-	button.setAttribute('disabled', true);
-}
-
-function enableButton(button) {
-	button.removeAttribute('disabled');
-}
-
 function setCurrentPage(newPage) {
 	currentPage = newPage;
 	return currentPage;
@@ -27,37 +19,24 @@ async function setPageQuantity() {
 	return pageQuantity;
 }
 
-function controlButtonStatus() {
-	currentPage === 1 ? disableButton(prevButton) : enableButton(prevButton);
-
-	currentPage === pageQuantity ? disableButton(nextButton) : enableButton(nextButton);
-}
-
 async function main() {
 	pageQuantity = await api.getPagesQuantity(limit);
 	await api.pagination(currentPage, limit);
 	displayPagination(pageQuantity);
 }
 
-prevButton.addEventListener('click', async () => {
-	controlButtonStatus();
-
-	if (prevButton.getAttribute('disabled') == null) {
-		const nextPage = setCurrentPage(currentPage - 1);
+const handlePaginationArrowClick = async (value) => {
+	const nextPage = currentPage + value;
+	if (nextPage != 0 && nextPage <= pageQuantity) {
+		setCurrentPage(nextPage);
 		await api.pagination(currentPage, limit);
 		toggleActivePageClass(nextPage);
 	}
-});
+};
 
-nextButton.addEventListener('click', async () => {
-	controlButtonStatus();
+prevButton.addEventListener('click', () => handlePaginationArrowClick(-1));
 
-	if (nextButton.getAttribute('disabled') == null) {
-		const nextPage = setCurrentPage(currentPage + 1);
-		await api.pagination(currentPage, limit);
-		toggleActivePageClass(nextPage);
-	}
-});
+nextButton.addEventListener('click', () => handlePaginationArrowClick(1));
 
 function toggleActivePageClass(nextPage) {
 	let currentItemLi = document.querySelector('li.pagination__list-item--active');
@@ -71,7 +50,6 @@ function toggleActivePageClass(nextPage) {
 
 export {
 	currentPage,
-	controlButtonStatus,
 	main,
 	setCurrentPage,
 	limit,

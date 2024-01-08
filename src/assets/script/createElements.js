@@ -1,4 +1,4 @@
-import { currentPage, setCurrentPage, limit, controlButtonStatus } from './pagination.js';
+import { currentPage, setCurrentPage, limit } from './pagination.js';
 import * as api from './api/index.js';
 import { toggleComplitionOfTask, ref } from './script.js';
 import { getTodoCreatedTime, getTodocreatedDate } from './time.js';
@@ -47,7 +47,6 @@ export const createPaginationBtn = (pageIndex) => {
 		paginationEl.classList.add('pagination__list-item--active');
 
 	paginationEl.addEventListener('click', (e) => {
-		controlButtonStatus();
 		setCurrentPage(pageIndex);
 		api.pagination(currentPage, limit);
 
