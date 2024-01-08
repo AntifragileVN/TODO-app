@@ -1,12 +1,13 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm';
-import { ref } from './script.js';
-import { limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
-import { createListElement, displayPagination } from './createElements.js';
+
+import { limit, toggleActivePageClass, setPageQuantity } from '../pagination.js';
+import { createListElement, displayPagination } from '../createElements.js';
+import { ref } from '../script.js';
 
 axios.defaults.baseURL = 'https://65631b1dee04015769a6cc8f.mockapi.io';
 
 // add task to DB after creating a task
-export const addTaskToDB = async ({ name, completed, createdTime, id }) => {
+export const addTodo = async ({ name, completed, createdTime, id }) => {
 	await axios
 		.post('/tasks', {
 			name,
@@ -21,7 +22,7 @@ export const addTaskToDB = async ({ name, completed, createdTime, id }) => {
 		.catch((err) => console.error(err));
 };
 
-export const markTaskCompleted = (id, boolean) => {
+export const changeTodoComplition = (id, boolean) => {
 	try {
 		axios.put(`/tasks/${id}`, {
 			completed: boolean,
@@ -32,7 +33,7 @@ export const markTaskCompleted = (id, boolean) => {
 	}
 };
 
-export const deleteTaskFromDB = async (id) => {
+export const deleteTodo = async (id) => {
 	try {
 		await axios.delete(`/tasks/${id}`);
 	} catch (error) {
@@ -79,7 +80,7 @@ export const pagination = async (page, limit) => {
 		.catch((err) => console.error(err));
 };
 
-export const getLastTaskIndex = async () => {
+export const getLastTodoIndex = async () => {
 	try {
 		const allTasks = await getAllTodos();
 		const lastTask = allTasks[allTasks.length - 1];

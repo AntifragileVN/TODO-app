@@ -1,4 +1,4 @@
-import { getPagesQuantity, pagination } from './DB.js';
+import * as api from './api/index.js';
 import { ref } from './script.js';
 import { displayPagination } from './createElements.js';
 
@@ -23,7 +23,7 @@ function setCurrentPage(newPage) {
 }
 
 async function setPageQuantity() {
-	pageQuantity = await getPagesQuantity(limit);
+	pageQuantity = await api.getPagesQuantity(limit);
 	return pageQuantity;
 }
 
@@ -34,27 +34,27 @@ function controlButtonStatus() {
 }
 
 async function main() {
-	pageQuantity = await getPagesQuantity(limit);
-	await pagination(currentPage, limit);
+	pageQuantity = await api.getPagesQuantity(limit);
+	await api.pagination(currentPage, limit);
 	displayPagination(pageQuantity);
 }
 
-prevButton.addEventListener('click', () => {
+prevButton.addEventListener('click', async () => {
 	controlButtonStatus();
 
 	if (prevButton.getAttribute('disabled') == null) {
 		const nextPage = setCurrentPage(currentPage - 1);
-		pagination(currentPage, limit);
+		await api.pagination(currentPage, limit);
 		toggleActivePageClass(nextPage);
 	}
 });
 
-nextButton.addEventListener('click', () => {
+nextButton.addEventListener('click', async () => {
 	controlButtonStatus();
 
 	if (nextButton.getAttribute('disabled') == null) {
 		const nextPage = setCurrentPage(currentPage + 1);
-		pagination(currentPage, limit);
+		await api.pagination(currentPage, limit);
 		toggleActivePageClass(nextPage);
 	}
 });

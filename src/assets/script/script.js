@@ -1,10 +1,4 @@
-import {
-	addTaskToDB,
-	deleteTaskFromDB,
-	pagination,
-	markTaskCompleted,
-	getLastTaskIndex,
-} from './DB.js';
+import * as api from './api/index.js';
 import { main, limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
 import { getCurrentDate } from './time.js';
 
@@ -22,18 +16,17 @@ export const ref = {
 };
 
 // event listener for button which create html task elements
-
 async function confirm() {
 	if (addTodoInput.value == '') {
 		alert('You must write something');
 		return;
 	}
 
-	await addTaskToDB({
+	await api.addTodo({
 		name: addTodoInput.value,
 		completed: false,
 		createdTime: new Date().getTime(),
-		id: getLastTaskIndex() + 1,
+		id: (await api.getLastTodoIndex()) + 1,
 	});
 
 	addTodoInput.value = '';
@@ -77,8 +70,8 @@ ref.todoListRef.addEventListener(
 			toggleComplitionOfTask(item);
 		} else if (e.target.closest('.task_delete-button') !== null) {
 			item.remove();
-			await deleteTaskFromDB(item.id);
-			pagination(
+			await api.deleteTodo(item.id);
+			await api.pagination(
 				document.querySelector('.pagination__list-item--active').value,
 				limit
 			);
@@ -94,11 +87,11 @@ export function toggleComplitionOfTask(listItem) {
 
 	if (imgElement.src.includes('uncompleted')) {
 		imgElement.src = './src/components/icons/task__completed-button.svg';
-		markTaskCompleted(listItem.id, true);
+		api.changeTodoComplition(listItem.id, true);
 		return;
 	}
 	imgElement.src = './src/components/icons/task__uncompleted-button.svg';
-	markTaskCompleted(listItem.id, false);
+	api.changeTodoComplition(listItem.id, false);
 }
 
 main();
