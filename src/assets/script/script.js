@@ -17,19 +17,19 @@ export const ref = {
 
 // event listener for button which create html task elements
 async function confirm() {
-	if (addTodoInput.value == '') {
+	if (ref.addTodoInput.value == '') {
 		alert('You must write something');
 		return;
 	}
 
 	await api.addTodo({
-		name: addTodoInput.value,
+		name: ref.addTodoInput.value,
 		completed: false,
 		createdTime: new Date().getTime(),
 		id: (await api.getLastTodoIndex()) + 1,
 	});
 
-	addTodoInput.value = '';
+	ref.addTodoInput.value = '';
 }
 
 ref.confirmBtn.addEventListener('click', () => {
@@ -45,15 +45,15 @@ ref.addTodoInput.addEventListener('keyup', (event) => {
 //Clear all text from input field
 
 ref.clearBtn.addEventListener('click', () => {
-	addTodoInput.value = '';
+	ref.addTodoInput.value = '';
 	return;
 });
 
 //Add animation after clicking on button
 
 ref.addTodoBtn.addEventListener('click', () => {
-	addTodoBoxRef.classList.toggle('animation');
-	addTodoInput.focus();
+	ref.addTodoBoxRef.classList.toggle('animation');
+	ref.addTodoInput.focus();
 });
 
 ref.todoListRef.addEventListener(

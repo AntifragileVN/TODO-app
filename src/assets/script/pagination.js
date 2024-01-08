@@ -6,7 +6,7 @@ const prevButton = document.querySelector('#prev');
 const nextButton = document.querySelector('#next');
 
 let currentPage = 1;
-let pageQuantity = undefined;
+let pageQuantity = 1;
 const limit = 4;
 
 function setCurrentPage(newPage) {
