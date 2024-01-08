@@ -8,42 +8,42 @@ import {
 import { main, limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
 import { getCurrentDate } from './time.js';
 
-/=============== GENERAL TODO APP ELEMENTS ===============/;
-const taskList = document.querySelector('#task-list');
-const todayDate = document.querySelector('#today-date');
-const paginationList = document.querySelector('#pagination');
+export const ref = {
+	todoListRef: document.querySelector('#task-list'),
+	todayDateRef: document.querySelector('#today-date'),
+	paginationRef: document.querySelector('#pagination'),
 
-const addTaskButton = document.querySelector('.todo__button');
-const addTaskField = document.querySelector('.todo__add');
+	addTodoBtn: document.querySelector('.todo__button'),
+	addTodoBoxRef: document.querySelector('.todo__add'),
 
-/=============== ADD TASK INPUT ===============/;
-const inputBox = document.querySelector('#input-box');
-const confirmButton = document.querySelector('.todo__input-confirm');
-const clearButton = document.querySelector('#input-clear-button');
+	addTodoInput: document.querySelector('#input-box'),
+	confirmBtn: document.querySelector('.todo__input-confirm'),
+	clearBtn: document.querySelector('#input-clear-button'),
+};
 
 // event listener for button which create html task elements
 
 async function confirm() {
-	if (inputBox.value == '') {
+	if (addTodoInput.value == '') {
 		alert('You must write something');
 		return;
 	}
 
 	await addTaskToDB({
-		name: inputBox.value,
+		name: addTodoInput.value,
 		completed: false,
 		createdTime: new Date().getTime(),
 		id: getLastTaskIndex() + 1,
 	});
 
-	inputBox.value = '';
+	addTodoInput.value = '';
 }
 
-confirmButton.addEventListener('click', () => {
+ref.confirmBtn.addEventListener('click', () => {
 	confirm();
 });
 
-inputBox.addEventListener('keyup', (event) => {
+ref.addTodoInput.addEventListener('keyup', (event) => {
 	if (event.key === 'Enter') {
 		confirm();
 	}
@@ -51,19 +51,19 @@ inputBox.addEventListener('keyup', (event) => {
 
 //Clear all text from input field
 
-clearButton.addEventListener('click', () => {
-	inputBox.value = '';
+ref.clearBtn.addEventListener('click', () => {
+	addTodoInput.value = '';
 	return;
 });
 
 //Add animation after clicking on button
 
-addTaskButton.addEventListener('click', () => {
-	addTaskField.classList.toggle('animation');
-	inputBox.focus();
+ref.addTodoBtn.addEventListener('click', () => {
+	addTodoBoxRef.classList.toggle('animation');
+	addTodoInput.focus();
 });
 
-taskList.addEventListener(
+ref.todoListRef.addEventListener(
 	'click',
 	async (e) => {
 		//animation on delete window
@@ -79,7 +79,6 @@ taskList.addEventListener(
 			item.remove();
 			await deleteTaskFromDB(item.id);
 			pagination(
-				taskList,
 				document.querySelector('.pagination__list-item--active').value,
 				limit
 			);
@@ -89,7 +88,7 @@ taskList.addEventListener(
 );
 
 //Complete task
-function toggleComplitionOfTask(listItem) {
+export function toggleComplitionOfTask(listItem) {
 	const imgElement = listItem.querySelector('.task__button-icon');
 	listItem.classList.toggle('task__completed');
 
@@ -103,6 +102,4 @@ function toggleComplitionOfTask(listItem) {
 }
 
 main();
-todayDate.innerText = getCurrentDate();
-
-export { toggleComplitionOfTask, paginationList, taskList };
+ref.todayDateRef.innerText = getCurrentDate();

@@ -1,5 +1,5 @@
 import { getPagesQuantity, pagination } from './DB.js';
-import { paginationList, taskList } from './script.js';
+import { ref } from './script.js';
 import { displayPagination } from './createElements.js';
 
 const prevButton = document.querySelector('#prev');
@@ -35,8 +35,8 @@ function controlButtonStatus() {
 
 async function main() {
 	pageQuantity = await getPagesQuantity(limit);
-	await pagination(taskList, currentPage, limit);
-	displayPagination(paginationList, pageQuantity);
+	await pagination(currentPage, limit);
+	displayPagination(pageQuantity);
 }
 
 prevButton.addEventListener('click', () => {
@@ -44,7 +44,7 @@ prevButton.addEventListener('click', () => {
 
 	if (prevButton.getAttribute('disabled') == null) {
 		const nextPage = setCurrentPage(currentPage - 1);
-		pagination(taskList, currentPage, limit);
+		pagination(currentPage, limit);
 		toggleActivePageClass(nextPage);
 	}
 });
@@ -54,7 +54,7 @@ nextButton.addEventListener('click', () => {
 
 	if (nextButton.getAttribute('disabled') == null) {
 		const nextPage = setCurrentPage(currentPage + 1);
-		pagination(taskList, currentPage, limit);
+		pagination(currentPage, limit);
 		toggleActivePageClass(nextPage);
 	}
 });

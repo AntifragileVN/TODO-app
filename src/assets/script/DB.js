@@ -1,5 +1,5 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios@1.4.0/+esm';
-import { paginationList, taskList } from './script.js';
+import { ref } from './script.js';
 import { limit, toggleActivePageClass, setPageQuantity } from './pagination.js';
 import { createListElement, displayPagination } from './createElements.js';
 
@@ -15,8 +15,8 @@ export const addTaskToDB = async ({ name, completed, createdTime, id }) => {
 			id,
 		})
 		.then(async (res) => {
-			await pagination(taskList, 1, limit);
-			createListElement({ name, completed, createdTime, id }, taskList);
+			await pagination(1, limit);
+			createListElement({ name, completed, createdTime, id });
 		})
 		.catch((err) => console.error(err));
 };
@@ -51,7 +51,7 @@ export const getAllTodos = async () => {
 	}
 };
 
-export const pagination = async (taskList, page, limit) => {
+export const pagination = async (page, limit) => {
 	const url = new URL('https://65631b1dee04015769a6cc8f.mockapi.io/tasks');
 
 	url.searchParams.append('sortBy', 'createdTime');
@@ -62,17 +62,17 @@ export const pagination = async (taskList, page, limit) => {
 	axios
 		.get(url)
 		.then(async (res) => {
-			taskList.replaceChildren();
+			ref.todoListRef.replaceChildren();
 
 			res.data.forEach((DBelement) => {
-				createListElement(DBelement, taskList);
+				createListElement(DBelement);
 			});
 
-			paginationList.querySelectorAll('.pagination__list-item').forEach((el) => {
+			ref.paginationRef.querySelectorAll('.pagination__list-item').forEach((el) => {
 				if (el.value != 0) el.remove();
 			});
 
-			displayPagination(paginationList, await setPageQuantity());
+			displayPagination(await setPageQuantity());
 
 			toggleActivePageClass(page);
 		})

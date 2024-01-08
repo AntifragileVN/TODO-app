@@ -1,6 +1,6 @@
 import { currentPage, setCurrentPage, limit, controlButtonStatus } from './pagination.js';
 import { pagination } from './DB.js';
-import { toggleComplitionOfTask, taskList } from './script.js';
+import { toggleComplitionOfTask, ref } from './script.js';
 import { getTodoCreatedTime, getTodocreatedDate } from './time.js';
 
 // html templete of task
@@ -57,7 +57,7 @@ export const padWithZero = (num) => {
 	return num.toString().padStart(2, '0');
 };
 
-export const createListElement = ({ name, completed, createdTime, id }, taskList) => {
+export const createListElement = ({ name, completed, createdTime, id }) => {
 	let listEl = elementFromHtml(htmlTaskTemplete);
 
 	let dateStr = getTodocreatedDate(createdTime);
@@ -71,14 +71,14 @@ export const createListElement = ({ name, completed, createdTime, id }, taskList
 	if (completed) {
 		toggleComplitionOfTask(listEl);
 	}
-	taskList.appendChild(listEl);
+	ref.todoListRef.appendChild(listEl);
 	return listEl;
 };
 
-export const displayPagination = (paginationList, pageQuantity) => {
+export const displayPagination = (pageQuantity) => {
 	for (let i = 1; i <= pageQuantity; i++) {
-		const lastElement = paginationList.lastElementChild;
-		paginationList.insertBefore(createPaginationBtn(i), lastElement);
+		const lastElement = ref.paginationRef.lastElementChild;
+		ref.paginationRef.insertBefore(createPaginationBtn(i), lastElement);
 	}
 };
 
@@ -94,7 +94,7 @@ export const createPaginationBtn = (pageIndex) => {
 	paginationEl.addEventListener('click', (e) => {
 		controlButtonStatus();
 		setCurrentPage(pageIndex);
-		pagination(taskList, currentPage, limit);
+		pagination(currentPage, limit);
 
 		let currentItemLi = document.querySelector('li.pagination__list-item--active');
 		currentItemLi.classList.remove('pagination__list-item--active');
